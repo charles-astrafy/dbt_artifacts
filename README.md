@@ -1,7 +1,7 @@
 # dbt Artifacts Package
 This package builds a mart of tables and views describing the project it is installed in. In pre V1 versions of the package, the artifacts dbt produces were uploaded to the warehouse, hence the name of the package. That's no longer the case, but the name has stuck!
 
-The package currently supports Databricks, Spark and Snowflake adapters.
+The package currently supports Databricks, Spark, Snowflake and BigQuery.
 
 Models included:
 
@@ -42,7 +42,7 @@ packages:
 
 ## Configuration
 
-The following configuration can be used to specify where the raw data is uploaded, and where the dbt models are created:
+The following configuration can be used in your `dbt_project.yml` to specify where the raw data is uploaded, and where the dbt models are created:
 
 ```yml
 vars:
@@ -59,7 +59,21 @@ models:
   ...
 ```
 
-Note that the model materializations are defined in this package's `dbt_project.yml`, so do not set them in your project.
+You can also implement your own logic by overriding the default [generate_database_name](https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-databases)
+and [generate_schema_name](https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas) macros.
+
+Note that the model materializations are defined in this package's `dbt_project.yml` as views. Incremental logic is set up in the
+staging models and if you want to leverage this materialization, you need to specify the following configuration in the `dbt_project.yml`
+of your project:
+
+```yml
+models:
+  ...
+  dbt_artifacts:
+    staging:
+      +materialized: incremental
+  ...
+```
 
 ### Environment Variables
 

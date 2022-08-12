@@ -3,6 +3,10 @@ with base as (
     select *
     from {{ source('dbt_artifacts', 'exposures') }}
 
+    {% if is_incremental() %}
+      -- this filter will only be applied on an incremental run
+      where run_started_at > (select IFNULL(max(run_started_at), TIMESTAMP("1900-01-01")) from {{ this }})
+    {% endif %}
 ),
 
 enhanced as (
