@@ -20,7 +20,7 @@ model_executions as (
         total_node_runtime,
         rows_affected,
         {% if target.type == 'bigquery' %}
-        bytes_processed,
+            bytes_processed,
         {% endif %}
         materialization,
         schema,

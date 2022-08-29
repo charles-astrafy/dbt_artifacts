@@ -4,7 +4,6 @@ This package builds a mart of tables and views describing the project it is inst
 The package currently supports Databricks, Spark and Snowflake adapters.
 
 Models included:
-
 ```
 dim_dbt__current_models
 dim_dbt__exposures
