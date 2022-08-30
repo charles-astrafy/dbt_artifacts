@@ -11,3 +11,5 @@ Pipfile.lock
 env.sh
 
 .python_version
+
+profiles.yml
